@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Survival Prediction Across Clinical Time Points</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav>
+    <a class="nav-brand" href="#">MSK-CHORD Project</a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#methods">Methods</a></li>
+      <li><a href="#results">Results</a></li>
+      <li><a href="#team">Author</a></li>
+    </ul>
+  </nav>
+
+  <div class="hero">
+    <span class="tag">MSK-CHORD · BIOSTAT 629 · 2026</span>
+    <h1>Survival Prediction Across Clinical Time Points</h1>
+    <p class="subtitle">
+      We compared survival models built at diagnosis, sequencing, and treatment stages in the MSK-CHORD cohort.
+      The main finding is that genomic information improved prediction beyond baseline clinical variables,
+      while simple treatment-stage variables added limited further gain.
+    </p>
+    <div class="hero-actions">
+      <a href="report.pdf" class="btn-primary">Read report</a>
+      <a href="https://github.com/username/repo" class="btn-outline" target="_blank" rel="noreferrer">Code</a>
+      <a href="https://www.cbioportal.org/study/summary?id=msk_chord_2024" class="btn-outline" target="_blank" rel="noreferrer">Data</a>
+    </div>
+  </div>
+
+  <main>
+    <section id="about">
+      <div class="container">
+        <h2>About</h2>
+        <p>
+          In survival analysis, the choice of time zero matters because it changes both the starting point of follow-up
+          and the information available for prediction. In this project, diagnosis, sequencing, and treatment initiation
+          were treated as three clinically meaningful time points.
+        </p>
+        <p>
+          The analysis used the MSK-CHORD cohort, a large real-world oncology dataset with linked clinical, genomic,
+          and treatment timeline information. The outcome was overall survival in months.
+        </p>
+        <p>
+          The main question was whether survival prediction improves as more information becomes available along the
+          clinical workflow.
+        </p>
+      </div>
+    </section>
+
+    <section id="methods">
+      <div class="container">
+        <h2>Methods</h2>
+        <p>
+          Three sequential Cox proportional hazards models were fitted. The diagnosis-stage model used baseline
+          clinical variables only. The sequencing-stage model added genomic features. The treatment-stage model
+          further added treatment-related variables.
+        </p>
+        <ul>
+          <li>Primary outcome: overall survival</li>
+          <li>Clinical variables: age, gender, stage, cancer type</li>
+          <li>Genomic variables: tumor mutational burden, TP53, KRAS, EGFR, and PIK3CA</li>
+          <li>Treatment variables: first treatment subtype and time to first treatment</li>
+          <li>Model evaluation: concordance index (C-index)</li>
+          <li>Downstream analysis: Kaplan–Meier risk stratification using the best-performing model</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="results">
+      <div class="container">
+        <h2>Results</h2>
+
+        <div class="fig-grid">
+          <figure>
+            <p class="fig-finding">
+              Genomic information improved prediction most at the sequencing stage.
+            </p>
+            <img src="figures/cindex_compare.png"
+                 alt="Bar plot comparing C-index across diagnosis, sequencing, and treatment models">
+            <figcaption>
+              <strong>Figure 1.</strong> Comparison of model discrimination across clinical stages.
+              The diagnosis, sequencing, and treatment models had C-indices of 0.664, 0.681, and 0.671,
+              respectively. The sequencing-stage model performed best.
+            </figcaption>
+          </figure>
+
+          <figure>
+            <p class="fig-finding">
+              The sequencing-stage model clearly separated patients into high-risk and low-risk groups.
+            </p>
+            <img src="figures/km_risk_group.png"
+                 alt="Kaplan-Meier survival curves for high-risk and low-risk groups defined by the sequencing model">
+            <figcaption>
+              <strong>Figure 2.</strong> Kaplan–Meier survival curves based on the sequencing-stage model.
+              Median overall survival was 25.9 months in the high-risk group and 104.6 months in the low-risk group.
+              The log-rank test was highly significant.
+            </figcaption>
+          </figure>
+
+          <figure>
+            <p class="fig-finding">
+              Several genomic alterations were associated with survival in the sequencing-stage model.
+            </p>
+            <img src="figures/genomic_hr.png"
+                 alt="Hazard ratio plot for TP53, KRAS, EGFR, and PIK3CA mutations">
+            <figcaption>
+              <strong>Figure 3.</strong> Hazard ratios for selected genomic alterations.
+              TP53 and KRAS were associated with higher hazard, while EGFR showed a lower hazard ratio.
+              PIK3CA showed a weaker association.
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section id="team">
+      <div class="container">
+        <h2>Author</h2>
+        <ul>
+          <li>Junzhe Shen · University of Michigan</li>
+        </ul>
+        <p>
+          This website presents the interim results of a BIOSTAT 629 project on survival prediction in the MSK-CHORD cohort.
+        </p>
+        <p>
+          Future work will include adding more genomic variables, improving treatment representation,
+          and comparing prediction across cancer subtypes.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>
+      Patient-level MSK-CHORD data are available through
+      <a href="https://www.cbioportal.org/study/summary?id=msk_chord_2024">cBioPortal</a>
+      under controlled access. Analysis code is freely available.
+    </p>
+    <p>
+      Questions? <a href="mailto:you@umich.edu">you@umich.edu</a>
+    </p>
+  </footer>
+</body>
+</html>
